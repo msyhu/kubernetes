@@ -224,6 +224,8 @@ func (o *CreateOptions) Complete(f cmdutil.Factory, cmd *cobra.Command) error {
 func (o *CreateOptions) RunCreate(f cmdutil.Factory, cmd *cobra.Command) error {
 	// raw only makes sense for a single file resource multiple objects aren't likely to do what you want.
 	// the validator enforces this, so
+	fmt.Println("나는 유문상이다")
+
 	if len(o.Raw) > 0 {
 		restClient, err := f.RESTClient()
 		if err != nil {
