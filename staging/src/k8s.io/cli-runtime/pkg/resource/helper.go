@@ -188,6 +188,7 @@ func (m *Helper) Create(namespace string, modify bool, obj runtime.Object) (runt
 }
 
 func (m *Helper) CreateWithOptions(namespace string, modify bool, obj runtime.Object, options *metav1.CreateOptions) (runtime.Object, error) {
+	fmt.Println("CreateWithOptions에서 찍어")
 	if options == nil {
 		options = &metav1.CreateOptions{}
 	}

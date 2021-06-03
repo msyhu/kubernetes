@@ -380,11 +380,13 @@ type FlattenListVisitor struct {
 // NewFlattenListVisitor creates a visitor that will expand list style runtime.Objects
 // into individual items and then visit them individually.
 func NewFlattenListVisitor(v Visitor, typer runtime.ObjectTyper, mapper *mapper) Visitor {
+	fmt.Println("NewFlattenListVisitor 에서 찍어")
 	return FlattenListVisitor{v, typer, mapper}
 }
 
 func (v FlattenListVisitor) Visit(fn VisitorFunc) error {
 	return v.visitor.Visit(func(info *Info, err error) error {
+		fmt.Println("Visit에서 찍어")
 		if err != nil {
 			return err
 		}
