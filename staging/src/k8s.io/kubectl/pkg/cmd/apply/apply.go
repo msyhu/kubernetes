@@ -298,6 +298,8 @@ func (o *ApplyOptions) Complete(f cmdutil.Factory, cmd *cobra.Command) error {
 }
 
 func validateArgs(cmd *cobra.Command, args []string) error {
+
+	fmt.Printf("validateArgs args len이 0 이 아니면 에러라는게 무슨뜻일까? : %+v\n", args)
 	if len(args) != 0 {
 		return cmdutil.UsageErrorf(cmd, "Unexpected args: %v", args)
 	}
@@ -305,6 +307,8 @@ func validateArgs(cmd *cobra.Command, args []string) error {
 }
 
 func validatePruneAll(prune, all bool, selector string) error {
+	fmt.Printf("validatePruneAll 파라미터 : %+v, %+v, %+v", prune, all, selector)
+
 	if all && len(selector) > 0 {
 		return fmt.Errorf("cannot set --all and --selector at the same time")
 	}
