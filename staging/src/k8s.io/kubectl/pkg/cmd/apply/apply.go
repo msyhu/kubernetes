@@ -106,6 +106,7 @@ type ApplyOptions struct {
 	PostProcessorFn func() error
 }
 
+// 문자열을 관리하는 방법. 별개의 파일에 관리할 줄 알았는데, 의외로 하드코딩을 하는 점이 특이하게 느껴졌다.
 var (
 	applyLong = templates.LongDesc(i18n.T(`
 		Apply a configuration to a resource by filename or stdin.
@@ -138,6 +139,7 @@ var (
 )
 
 // NewApplyOptions creates new ApplyOptions for the `apply` command
+// ApplyOptions 구조체가 apply 관련 이것저것 속성을 정의해놓은 구조체 같은데... 각각이 뭘 의미하는지 알아낼 방법이 없을까?
 func NewApplyOptions(ioStreams genericclioptions.IOStreams) *ApplyOptions {
 	return &ApplyOptions{
 		RecordFlags: genericclioptions.NewRecordFlags(),
@@ -160,20 +162,20 @@ func NewApplyOptions(ioStreams genericclioptions.IOStreams) *ApplyOptions {
 }
 
 // NewCmdApply creates the `apply` command
-// start apply
+// 여기서 apply 가 시작됨.
 func NewCmdApply(baseName string, f cmdutil.Factory, ioStreams genericclioptions.IOStreams) *cobra.Command {
 	o := NewApplyOptions(ioStreams)
 
-	fmt.Println("NewCmdApply baseName: ", baseName)
-	fmt.Printf("NewCmdApply Factory: %+v\n", f)
-	fmt.Printf("NewCmdApply ioStreams: %+v\n", ioStreams)
-	fmt.Printf("NewCmdApply ApplyOptions: %+v\n", o)
+	//fmt.Println("NewCmdApply baseName: ", baseName)
+	//fmt.Printf("NewCmdApply Factory: %+v\n", f)
+	//fmt.Printf("NewCmdApply ioStreams: %+v\n", ioStreams)
+	//fmt.Printf("NewCmdApply ApplyOptions: %+v\n", o)
 
 	// Store baseName for use in printing warnings / messages involving the base command name.
 	// This is useful for downstream command that wrap this one.
 	o.cmdBaseName = baseName
 
-	// kubectl apply --help strings
+	// kubectl apply --help 를 치면 나오는 문자열들이 여기 정의되어 있다.
 	cmd := &cobra.Command{
 		Use:                   "apply (-f FILENAME | -k DIRECTORY)",
 		DisableFlagsInUseLine: true,
