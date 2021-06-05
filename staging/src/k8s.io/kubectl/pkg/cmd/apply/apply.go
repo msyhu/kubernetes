@@ -162,21 +162,20 @@ func NewApplyOptions(ioStreams genericclioptions.IOStreams) *ApplyOptions {
 }
 
 // NewCmdApply creates the `apply` command
-// 여기서 apply 가 시작됨.
+// start apply
 func NewCmdApply(baseName string, f cmdutil.Factory, ioStreams genericclioptions.IOStreams) *cobra.Command {
 	o := NewApplyOptions(ioStreams)
 
-	// 역시 빌드해서 찍어가면서 해야 한다.
 	fmt.Println("NewCmdApply baseName: ", baseName)
-	fmt.Println("NewCmdApply Factory: ", f)
-	fmt.Println("NewCmdApply ioStreams: ", ioStreams)
-	fmt.Println("NewCmdApply ApplyOptions: ", o)
+	fmt.Printf("NewCmdApply Factory: %+v\n", f)
+	fmt.Printf("NewCmdApply ioStreams: %+v\n", ioStreams)
+	fmt.Printf("NewCmdApply ApplyOptions: %+v\n", o)
 
 	// Store baseName for use in printing warnings / messages involving the base command name.
 	// This is useful for downstream command that wrap this one.
 	o.cmdBaseName = baseName
 
-	// kubectl apply --help 를 치면 나오는 문자열들이 여기 정의되어 있다.
+	// kubectl apply --help strings
 	cmd := &cobra.Command{
 		Use:                   "apply (-f FILENAME | -k DIRECTORY)",
 		DisableFlagsInUseLine: true,
