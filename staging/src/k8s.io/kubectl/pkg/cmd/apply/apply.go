@@ -166,10 +166,7 @@ func NewApplyOptions(ioStreams genericclioptions.IOStreams) *ApplyOptions {
 func NewCmdApply(baseName string, f cmdutil.Factory, ioStreams genericclioptions.IOStreams) *cobra.Command {
 	o := NewApplyOptions(ioStreams)
 
-	//fmt.Println("NewCmdApply baseName: ", baseName)
-	//fmt.Printf("NewCmdApply Factory: %+v\n", f)
-	//fmt.Printf("NewCmdApply ioStreams: %+v\n", ioStreams)
-	//fmt.Printf("NewCmdApply ApplyOptions: %+v\n", o)
+	fmt.Printf("NewCmdApply() 에서의 ApplyOptions : %+v", o)
 
 	// Store baseName for use in printing warnings / messages involving the base command name.
 	// This is useful for downstream command that wrap this one.
@@ -299,6 +296,7 @@ func (o *ApplyOptions) Complete(f cmdutil.Factory, cmd *cobra.Command) error {
 
 func validateArgs(cmd *cobra.Command, args []string) error {
 
+	// 둘 이상의 파라미터가 들어가면 두번째부터 args에 들어와서 length가 0이 아니게 된다
 	fmt.Printf("validateArgs args len이 0 이 아니면 에러라는게 무슨뜻일까? : %+v\n", args)
 	if len(args) != 0 {
 		return cmdutil.UsageErrorf(cmd, "Unexpected args: %v", args)
@@ -351,6 +349,7 @@ func (o *ApplyOptions) GetObjects() ([]*resource.Info, error) {
 		o.objects, err = r.Infos()
 		o.objectsCached = true
 	}
+	fmt.Printf("GetObjects() 에서의 ApplyOptions : %+v", o)
 	return o.objects, err
 }
 
@@ -364,6 +363,7 @@ func (o *ApplyOptions) SetObjects(infos []*resource.Info) {
 // Run executes the `apply` command.
 func (o *ApplyOptions) Run() error {
 
+	// PreProcessorFn 가 무슨 역할일까?
 	if o.PreProcessorFn != nil {
 		klog.V(4).Infof("Running apply pre-processor function")
 		if err := o.PreProcessorFn(); err != nil {
