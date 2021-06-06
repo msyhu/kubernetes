@@ -119,6 +119,7 @@ func (r *Result) Infos() ([]*Info, error) {
 	}
 
 	infos := []*Info{}
+	fmt.Printf("before visit %+v", infos)
 	err := r.visitor.Visit(func(info *Info, err error) error {
 		if err != nil {
 			return err
@@ -126,6 +127,7 @@ func (r *Result) Infos() ([]*Info, error) {
 		infos = append(infos, info)
 		return nil
 	})
+	fmt.Printf("after visit %+v", infos)
 	err = utilerrors.FilterOut(err, r.ignoreErrors...)
 
 	r.info, r.err = infos, err

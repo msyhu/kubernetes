@@ -166,7 +166,7 @@ func NewApplyOptions(ioStreams genericclioptions.IOStreams) *ApplyOptions {
 func NewCmdApply(baseName string, f cmdutil.Factory, ioStreams genericclioptions.IOStreams) *cobra.Command {
 	o := NewApplyOptions(ioStreams)
 
-	fmt.Printf("NewCmdApply ApplyOptions : %+v", o)
+	//fmt.Printf("NewCmdApply ApplyOptions : %+v", o)
 
 	// Store baseName for use in printing warnings / messages involving the base command name.
 	// This is useful for downstream command that wrap this one.
@@ -349,7 +349,7 @@ func (o *ApplyOptions) GetObjects() ([]*resource.Info, error) {
 		o.objects, err = r.Infos()
 		o.objectsCached = true
 	}
-	fmt.Printf("GetObjects ApplyOptions : %+v", o)
+	//fmt.Printf("GetObjects ApplyOptions : %+v", o)
 	return o.objects, err
 }
 
