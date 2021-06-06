@@ -167,6 +167,7 @@ func NewCmdApply(baseName string, f cmdutil.Factory, ioStreams genericclioptions
 	o := NewApplyOptions(ioStreams)
 
 	//fmt.Printf("NewCmdApply ApplyOptions : %+v", o)
+	panic("NewCmdApply trace")
 
 	// Store baseName for use in printing warnings / messages involving the base command name.
 	// This is useful for downstream command that wrap this one.
