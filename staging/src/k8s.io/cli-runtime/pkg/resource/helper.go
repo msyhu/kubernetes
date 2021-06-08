@@ -217,7 +217,7 @@ func (m *Helper) CreateWithOptions(namespace string, modify bool, obj runtime.Ob
 
 func (m *Helper) createResource(c RESTClient, resource, namespace string, obj runtime.Object, options *metav1.CreateOptions) (runtime.Object, error) {
 
-	fmt.Printf("createResource : %+v\n", obj)
+	fmt.Printf("createResource body에 들어가는 객체: %+v\n", obj)
 
 	return c.Post().
 		NamespaceIfScoped(namespace, m.NamespaceScoped).
