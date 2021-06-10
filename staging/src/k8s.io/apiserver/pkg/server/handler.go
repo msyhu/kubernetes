@@ -120,6 +120,9 @@ type director struct {
 }
 
 func (d director) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+
+	fmt.Println("goRestfulContainer 호출 ServeHTTP")
+
 	path := req.URL.Path
 
 	// check to see if our webservices want to claim this path
