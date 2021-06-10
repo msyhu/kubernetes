@@ -150,6 +150,8 @@ func (s *store) Create(ctx context.Context, key string, obj, out runtime.Object,
 	if err := s.versioner.PrepareObjectForStorage(obj); err != nil {
 		return fmt.Errorf("PrepareObjectForStorage failed: %v", err)
 	}
+	fmt.Printf("etcd 저장 before encoded data %+v\n", obj)
+	fmt.Println("etcd 저장 codec ", s.codec)
 	data, err := runtime.Encode(s.codec, obj)
 	fmt.Printf("etcd 저장 data %+v\n", data)
 	if err != nil {
