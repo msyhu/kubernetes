@@ -903,7 +903,14 @@ func (r *Request) request(ctx context.Context, fn func(*http.Request, *http.Resp
 			}
 			retryInfo = ""
 		}
+
+		fmt.Println("url : ", url)
+		fmt.Printf("req : %+v\n", req)
+
 		resp, err := client.Do(req)
+
+		fmt.Printf("resp : %+v\n", resp)
+
 		updateURLMetrics(ctx, r, resp, err)
 		if err != nil {
 			r.backoff.UpdateBackoff(r.URL(), err, 0)
