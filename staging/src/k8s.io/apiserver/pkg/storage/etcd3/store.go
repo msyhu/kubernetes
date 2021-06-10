@@ -141,6 +141,9 @@ func (s *store) Get(ctx context.Context, key string, opts storage.GetOptions, ou
 
 // Create implements storage.Interface.Create.
 func (s *store) Create(ctx context.Context, key string, obj, out runtime.Object, ttl uint64) error {
+
+	fmt.Println("Etcd 저장")
+
 	if version, err := s.versioner.ObjectResourceVersion(obj); err == nil && version != 0 {
 		return errors.New("resourceVersion should not be set on objects to be created")
 	}
