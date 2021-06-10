@@ -147,6 +147,9 @@ func createHandler(r rest.NamedCreater, scope *RequestScope, admit admission.Int
 
 		trace.Step("About to store object in database")
 		admissionAttributes := admission.NewAttributesRecord(obj, nil, scope.Kind, namespace, name, scope.Resource, scope.Subresource, admission.Create, options, dryrun.IsDryRun(options.DryRun), userInfo)
+
+		fmt.Println("---------------------------------------- goRestfulContainer createHandler")
+		fmt.Printf("ctx: %+v\n name: %+v\n obj: %+v\n options: %+v\n", ctx, name, obj, options)
 		requestFunc := func() (runtime.Object, error) {
 			return r.Create(
 				ctx,
