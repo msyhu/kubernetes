@@ -151,6 +151,7 @@ func (s *store) Create(ctx context.Context, key string, obj, out runtime.Object,
 		return fmt.Errorf("PrepareObjectForStorage failed: %v", err)
 	}
 	data, err := runtime.Encode(s.codec, obj)
+	fmt.Printf("etcd 저장 data %+v\n", data)
 	if err != nil {
 		return err
 	}
@@ -162,6 +163,8 @@ func (s *store) Create(ctx context.Context, key string, obj, out runtime.Object,
 	}
 
 	newData, err := s.transformer.TransformToStorage(data, authenticatedDataString(key))
+	fmt.Printf("etcd 저장 newData %+v\n", newData)
+
 	if err != nil {
 		return storage.NewInternalError(err.Error())
 	}
