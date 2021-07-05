@@ -23,6 +23,7 @@ package deployment
 import (
 	"context"
 	"fmt"
+	"github.com/msyhu/kubernetes/vendor/k8s.io/klog/v2"
 	"reflect"
 	"time"
 
@@ -165,8 +166,10 @@ func (dc *DeploymentController) Run(workers int, stopCh <-chan struct{}) {
 }
 
 func (dc *DeploymentController) addDeployment(obj interface{}) {
+	// 들어온 객체가 deployment 타입인지 type check.
 	d := obj.(*apps.Deployment)
 	klog.V(4).InfoS("Adding deployment", "deployment", klog.KObj(d))
+	// deployment 타입이 맞으면 큐에 넣는다.
 	dc.enqueueDeployment(d)
 }
 
@@ -376,12 +379,14 @@ func (dc *DeploymentController) deletePod(obj interface{}) {
 }
 
 func (dc *DeploymentController) enqueue(deployment *apps.Deployment) {
+	// 키 획득
 	key, err := controller.KeyFunc(deployment)
 	if err != nil {
 		utilruntime.HandleError(fmt.Errorf("couldn't get key for object %#v: %v", deployment, err))
 		return
 	}
 
+	// 이 키를 진짜 큐에 넣는다.
 	dc.queue.Add(key)
 }
 
@@ -463,12 +468,15 @@ func (dc *DeploymentController) worker() {
 }
 
 func (dc *DeploymentController) processNextWorkItem() bool {
+	// 큐에서 아이템을 하나 꺼낸다.
 	key, quit := dc.queue.Get()
 	if quit {
 		return false
 	}
+	// defer로 처리가 끝내면 해당 key를 done 한다.
 	defer dc.queue.Done(key)
 
+	// 처리를 수행한다.
 	err := dc.syncHandler(key.(string))
 	dc.handleErr(err, key)
 
@@ -578,7 +586,11 @@ func (dc *DeploymentController) syncDeployment(key string) error {
 		klog.V(4).InfoS("Finished syncing deployment", "deployment", klog.KRef(namespace, name), "duration", time.Since(startTime))
 	}()
 
+	// string으로 받은 키를 이용해서 deployment 객체의 정보를 얻어온다.
 	deployment, err := dc.dLister.Deployments(namespace).Get(name)
+	// 이시점에서 이미 Get할 게 있다는건가? 내가 생각한 거로는 아직 생성되지 않았으니까 없어야 하는데...저 Get이 어디서 하는거지? etcd의 정보를 GET한다는 건가?
+	fmt.Println("deployment-------------------", deployment)
+
 	if errors.IsNotFound(err) {
 		klog.V(2).InfoS("Deployment has been deleted", "deployment", klog.KRef(namespace, name))
 		return nil
@@ -628,7 +640,10 @@ func (dc *DeploymentController) syncDeployment(key string) error {
 		return err
 	}
 
+	fmt.Println("d.Spec.Paused-------- : ", d.Spec.Paused)
+
 	if d.Spec.Paused {
+		// etcd 할당요청 상태로 업데이트하러 go
 		return dc.sync(d, rsList)
 	}
 

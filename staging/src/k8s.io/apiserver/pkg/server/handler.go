@@ -19,6 +19,7 @@ package server
 import (
 	"bytes"
 	"fmt"
+	"github.com/msyhu/kubernetes/vendor/k8s.io/klog/v2"
 	"net/http"
 	rt "runtime"
 	"sort"
@@ -189,5 +190,7 @@ func serviceErrorHandler(s runtime.NegotiatedSerializer, serviceErr restful.Serv
 
 // ServeHTTP makes it an http.Handler
 func (a *APIServerHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("API Server 의 시작")
+
 	a.FullHandlerChain.ServeHTTP(w, r)
 }

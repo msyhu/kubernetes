@@ -721,9 +721,10 @@ func BuildHandlerChainWithStorageVersionPrecondition(apiHandler http.Handler, c 
 
 func DefaultBuildHandlerChain(apiHandler http.Handler, c *Config) http.Handler {
 
-	fmt.Println("HTTP 요청들이 공통적으로 수행해야 하는 작업들을 정의 DefaultBuildHandlerChain")
+	fmt.Println("HTTP 요청들에 공통적으로 수행해야 하는 작업들을 정의 DefaultBuildHandlerChain")
 
 	handler := filterlatency.TrackCompleted(apiHandler)
+	// 인증 검사
 	handler = genericapifilters.WithAuthorization(handler, c.Authorization.Authorizer, c.Serializer)
 	handler = filterlatency.TrackStarted(handler, "authorization")
 
@@ -751,6 +752,7 @@ func DefaultBuildHandlerChain(apiHandler http.Handler, c *Config) http.Handler {
 	handler = genericapifilters.WithAuthentication(handler, c.Authentication.Authenticator, failedHandler, c.Authentication.APIAudiences)
 	handler = filterlatency.TrackStarted(handler, "authentication")
 
+	// CORS 검사
 	handler = genericfilters.WithCORS(handler, c.CorsAllowedOriginList, nil, nil, nil, "true")
 
 	// WithTimeoutForNonLongRunningRequests will call the rest of the request handling in a go-routine with the
