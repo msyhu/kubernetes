@@ -615,6 +615,8 @@ func (dc *DeploymentController) syncDeployment(key string) error {
 	// List ReplicaSets owned by this Deployment, while reconciling ControllerRef
 	// through adoption/orphaning.
 	rsList, err := dc.getReplicaSetsForDeployment(d)
+	fmt.Println("rsList-----------: ", rsList)
+
 	if err != nil {
 		return err
 	}
@@ -624,6 +626,8 @@ func (dc *DeploymentController) syncDeployment(key string) error {
 	// * check if a Pod is labeled correctly with the pod-template-hash label.
 	// * check that no old Pods are running in the middle of Recreate Deployments.
 	podMap, err := dc.getPodMapForDeployment(d, rsList)
+	fmt.Println("podMap-----------: ", podMap)
+
 	if err != nil {
 		return err
 	}
@@ -642,7 +646,7 @@ func (dc *DeploymentController) syncDeployment(key string) error {
 	fmt.Println("d.Spec.Paused-------- : ", d.Spec.Paused)
 
 	if d.Spec.Paused {
-		// etcd 할당요청 상태로 업데이트하러 go
+
 		return dc.sync(d, rsList)
 	}
 
@@ -661,8 +665,11 @@ func (dc *DeploymentController) syncDeployment(key string) error {
 		return err
 	}
 	if scalingEvent {
+		// etcd 할당요청 상태로 업데이트하러 go
 		return dc.sync(d, rsList)
 	}
+
+	fmt.Println("d.Spec.Strategy.Type-----------: ", d.Spec.Strategy.Type)
 
 	switch d.Spec.Strategy.Type {
 	case apps.RecreateDeploymentStrategyType:

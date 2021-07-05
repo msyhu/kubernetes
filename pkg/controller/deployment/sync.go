@@ -536,10 +536,12 @@ func (dc *DeploymentController) isScalingEvent(d *apps.Deployment, rsList []*app
 	}
 	allRSs := append(oldRSs, newRS)
 	for _, rs := range controller.FilterActiveReplicaSets(allRSs) {
+		// desired state 를 가져온다.
 		desired, ok := deploymentutil.GetDesiredReplicasAnnotation(rs)
 		if !ok {
 			continue
 		}
+		// desired state와 current state를 비교한다.
 		if desired != *(d.Spec.Replicas) {
 			return true, nil
 		}
