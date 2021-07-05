@@ -665,7 +665,7 @@ func (dc *DeploymentController) syncDeployment(key string) error {
 		return err
 	}
 	if scalingEvent {
-		// etcd 할당요청 상태로 업데이트하러 go
+
 		return dc.sync(d, rsList)
 	}
 
@@ -675,6 +675,7 @@ func (dc *DeploymentController) syncDeployment(key string) error {
 	case apps.RecreateDeploymentStrategyType:
 		return dc.rolloutRecreate(d, rsList, podMap)
 	case apps.RollingUpdateDeploymentStrategyType:
+		// etcd 할당요청 상태로 업데이트하러 go
 		return dc.rolloutRolling(d, rsList)
 	}
 	return fmt.Errorf("unexpected deployment strategy type: %s", d.Spec.Strategy.Type)

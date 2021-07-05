@@ -29,7 +29,10 @@ import (
 
 // rolloutRolling implements the logic for rolling a new replica set.
 func (dc *DeploymentController) rolloutRolling(d *apps.Deployment, rsList []*apps.ReplicaSet) error {
+	// 이전 replica와 현재 replica 갯수를 반환한다.
 	newRS, oldRSs, err := dc.getAllReplicaSetsAndSyncRevision(d, rsList, true)
+	fmt.Println("newRS-----------: ", newRS)
+	fmt.Println("oldRSs-----------: ", oldRSs)
 	if err != nil {
 		return err
 	}
@@ -37,6 +40,7 @@ func (dc *DeploymentController) rolloutRolling(d *apps.Deployment, rsList []*app
 
 	// Scale up, if we can.
 	scaledUp, err := dc.reconcileNewReplicaSet(allRSs, newRS, d)
+	fmt.Println("scaledUp-----------: ", scaledUp)
 	if err != nil {
 		return err
 	}
