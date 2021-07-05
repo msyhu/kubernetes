@@ -66,6 +66,7 @@ func (dc *DeploymentController) rolloutRolling(d *apps.Deployment, rsList []*app
 	}
 
 	// Sync deployment status
+	// current state와 desired state를 맞추러 출발
 	return dc.syncRolloutStatus(allRSs, newRS, d)
 }
 

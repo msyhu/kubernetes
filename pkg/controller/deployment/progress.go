@@ -36,6 +36,7 @@ import (
 // we shouldn't try to estimate any progress.
 func (dc *DeploymentController) syncRolloutStatus(allRSs []*apps.ReplicaSet, newRS *apps.ReplicaSet, d *apps.Deployment) error {
 	newStatus := calculateStatus(allRSs, newRS, d)
+	fmt.Println("newStatus-----------: ", newStatus)
 
 	// If there is no progressDeadlineSeconds set, remove any Progressing condition.
 	if !util.HasProgressDeadline(d) {
