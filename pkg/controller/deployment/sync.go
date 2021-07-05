@@ -19,7 +19,6 @@ package deployment
 import (
 	"context"
 	"fmt"
-	"github.com/msyhu/kubernetes/vendor/k8s.io/klog/v2"
 	"reflect"
 	"sort"
 	"strconv"
