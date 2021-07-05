@@ -654,6 +654,9 @@ func (dc *DeploymentController) syncDeployment(key string) error {
 	}
 
 	scalingEvent, err := dc.isScalingEvent(d, rsList)
+
+	fmt.Println("scalingEvent: ", scalingEvent)
+
 	if err != nil {
 		return err
 	}
