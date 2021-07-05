@@ -19,7 +19,6 @@ package server
 import (
 	"bytes"
 	"fmt"
-	"github.com/msyhu/kubernetes/vendor/k8s.io/klog/v2"
 	"net/http"
 	rt "runtime"
 	"sort"
