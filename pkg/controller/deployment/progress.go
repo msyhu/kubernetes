@@ -60,6 +60,8 @@ func (dc *DeploymentController) syncRolloutStatus(allRSs []*apps.ReplicaSet, new
 				msg = fmt.Sprintf("ReplicaSet %q has successfully progressed.", newRS.Name)
 			}
 			condition := util.NewDeploymentCondition(apps.DeploymentProgressing, v1.ConditionTrue, util.NewRSAvailableReason, msg)
+			fmt.Println("condition-----------: ", condition)
+
 			util.SetDeploymentCondition(&newStatus, *condition)
 
 		case util.DeploymentProgressing(d, &newStatus):
@@ -115,6 +117,8 @@ func (dc *DeploymentController) syncRolloutStatus(allRSs []*apps.ReplicaSet, new
 
 	newDeployment := d
 	newDeployment.Status = newStatus
+	// 최종적으로 할당요청 상태로 바꾸도록 apiserver에 호출한다.
+	fmt.Println("newDeployment-----------: ", newDeployment)
 	_, err := dc.client.AppsV1().Deployments(newDeployment.Namespace).UpdateStatus(context.TODO(), newDeployment, metav1.UpdateOptions{})
 	return err
 }
